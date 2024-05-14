@@ -1,1 +1,62 @@
-<h1>Hello, World!</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"  crossorigin="anonymous"></script>
+    <title>Transmute</title>
+  </head>
+  <body>
+	<form method="post" action="#" id="generator">
+		<label>Number of Items</label>
+		<input type="number" name="items" id="items" value="10" />
+		<input type="submit" name="submit" id="submit" value="Generate" />
+	</form>
+
+	<div id="output" class="col-md-4" style="margin: auto;"></div>
+	<script>
+		function customRound(e) {
+			return Math.round(100 * e * (1 + Number.EPSILON)) / 100
+		}
+		function transmute(e, n) {
+			let $ = null;
+			if (e > n || e < 0)
+				$ = "#Invalid Score";
+			else if (n <= 0)
+				$ = "#Invalid Number of Items";
+			else if ("" === e || "" === n)
+				$ = "#blank";
+			else if (e >= 0 && n > 0) {
+				let l = .6 * n;
+				e >= l ? (interval = 25 / (n - l), $ = 100 - (n - e) * interval) : $ = e >= l - .4 && e < l ? 74 : 74 - (interval = 9 / (l - 1)) * (l - 1 - e)
+			} else
+				$ = "#Error";
+			return $
+		}
+
+		$('#generator').on('submit', function (e) {
+			e.preventDefault();
+
+			items = $('#items').val();
+
+
+
+			table = '<table class="table-striped">';
+			table += '<tr><th class="text-center">SCORE</th><th class="text-center">EQUIV</th></tr>';
+			for (i = items; i >= 0; i--) {
+				table += '<tr><td class="text-right">' + i + '</td><td class="text-right">' + Math.round(  transmute(i, items), 0) + '</td></tr>';
+			}
+
+			table += '</table>';
+
+			$('#output').html(table);
+		});
+	</script>    <p>&nbsp;</p>
+	</div>
+
+  </body>
+</html>
